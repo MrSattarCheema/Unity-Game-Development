@@ -60,8 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Enemy.cs" />
+    <Compile Include="Assets\OnEnableScript.cs" />
+    <Compile Include="Assets\Script\SpawnManager.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\Laser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Materials 1\Shaders\Galaxy.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

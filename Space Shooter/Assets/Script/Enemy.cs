@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
                 player.Demage();
             }
             Destroy(this.gameObject);
+            //Debug.Log("h");
         }
         if(other.tag == "Laser")
         {

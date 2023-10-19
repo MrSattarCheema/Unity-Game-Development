@@ -8,11 +8,14 @@ public class SpawnManager : MonoBehaviour
     private GameObject enemyPrefab;
     [SerializeField]
     private GameObject enemyContainer;
+    [SerializeField]
+    private GameObject[] powerUpPrefab;
     private bool isPlayerAlive = true;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerups());
     }
 
     // Update is called once per frame
@@ -20,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     {
         
     }
-    IEnumerator SpawnRoutine()
+    IEnumerator SpawnEnemyRoutine()
     {
         while (isPlayerAlive)
         {
@@ -30,8 +33,19 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
-     public void OnPlayerDeath()
+    IEnumerator SpawnPowerups()
+    {
+        while (isPlayerAlive)
+        {
+            Vector3 position = new Vector3(Random.Range(-9.7f, 9.4f), 6.25f, 0);
+            int randomPower = Random.Range(0, 3);
+            Instantiate(powerUpPrefab[randomPower], position, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(7f,13f));
+        }
+    }
+    public void OnPlayerDeath()
     {
         isPlayerAlive = false;
+
     }
 }

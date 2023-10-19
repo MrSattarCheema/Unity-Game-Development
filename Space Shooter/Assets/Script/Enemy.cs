@@ -6,38 +6,56 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float speed = 4.0f;
+    [SerializeField]
+    private Player player;
+    [SerializeField]
+    private Animator animator;
+    private bool isDestoyed=false;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame y=6.37 and -4, x = -9.7 and 9.7
     void Update()
     {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
-        if(transform.position.y < -4f)
+        if (isDestoyed==false)
         {
-            float randomX = Random.Range(-9, 9);
-            transform.position = new Vector3(randomX, 6.37f, 0);
+            if (transform.position.y < -4f)
+            {
+                float randomX = Random.Range(-9, 9);
+                transform.position = new Vector3(randomX, 6.37f, 0);
+            }
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.tag == "Player")
         {
-            Player player = other.transform.GetComponent<Player>();
             if(player != null)
             {
                 player.Demage();
             }
-            Destroy(this.gameObject);
+            Destroy(GetComponent<Collider2D>());
+            animator.SetTrigger("OnEnemyDeath");
+            isDestoyed = true;
+            Destroy(this.gameObject, 2.8f);
             //Debug.Log("h");
         }
         if(other.tag == "Laser")
         {
+            if (player != null)
+            {
+                player.AddScore(10);
+            }
+            Destroy(GetComponent<Collider2D>());
+            animator.SetTrigger("OnEnemyDeath");
             Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            isDestoyed=true;
+            Destroy(this.gameObject,2.8f);
         }
     }
 }
